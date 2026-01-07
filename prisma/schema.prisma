@@ -11,7 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("PRISMA_ACCELERATE_URL")
+  // url      = env("DATABASE_URL")
 }
 
 model User{
@@ -21,25 +21,47 @@ model User{
   lists       String[]
   tags        String[]
   Tasks       Task[]
+  ExpensesCard    ExpenseCard[]
 }
 
 model Task{
   id          Int @id @default(autoincrement())
+
+  User        User @relation(fields: [userId], references: [id])
   userId      Int 
+
   title       String
   taskDescription     String
   date        String
   complete    Boolean @default(false)
   list        String[]
   tags        String[]
-  User        User @relation(fields: [userId], references: [id])
   Subtask     Subtask[]
+
 }
 
 model Subtask{
-  id Int @unique @default(autoincrement())
-  taskId Int
-  detail String
-  complete Boolean @default(false)
-  task   Task @relation(fields: [taskId],references: [id])
+  id          Int @unique @default(autoincrement())
+  taskId      Int
+  detail      String
+  complete    Boolean @default(false)
+  task        Task @relation(fields: [taskId],references: [id])
+}
+
+model ExpenseCard{
+  id         Int @unique @default(autoincrement())
+  name       String
+  user       User @relation(fields: [userId],references: [id])
+  userId     Int
+  expenses   Expenses[]
+  createdAt  DateTime @default(now())
+}
+
+model Expenses{
+  id          Int @unique @default(autoincrement())
+  details     String
+  expenseCard ExpenseCard @relation(fields: [expenseCardId],references: [id])
+  expenseCardId Int
+
+  createdAt   DateTime @default(now())
 }

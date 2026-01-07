@@ -1,32 +1,44 @@
-interface userCredentials{
-    username:string,
-    password:string
+import { ExpenseCard, Expenses } from "@prisma/client";
+
+export interface userCredentials {
+  username: string;
+  password: string;
 }
 
-interface DecodedToken {
-  role:string,
-  user:string,  
+export interface DecodedToken {
+  role: string;
+  user: string;
   userId: number;
 }
 
-interface taskInput {
+export interface taskInput {
   title: string;
   taskDescription: string;
   date: string;
   complete: boolean;
-  list:  string[]
-  tags: string[]
+  list: string[];
+  tags: string[];
 }
 
-interface subtaskConstant {
+export interface subtaskConstant {
   id: number;
   taskId: number;
   detail: string;
   complete: boolean;
 }
-interface tasksConstant extends taskInput {
+export interface tasksConstant extends taskInput {
   userId: number;
 }
-interface tasksDBConstant extends tasksConstant {
+export interface tasksDBConstant extends tasksConstant {
   id: number;
+}
+export interface GetAllExpensesConstant {
+  expensesCards: ExpenseCard[];
+}
+
+export interface AddNewCardConstant {
+  newCard: ExpenseCard;
+}
+export interface AddNewExpenseConstant{
+  newSpend:Expenses
 }
