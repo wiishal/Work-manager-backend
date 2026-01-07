@@ -1,113 +1,100 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useMemo, useState } from "react";
 import "../style/Upcoming.css";
-import { Await } from "react-router";
 import { getAllTasks } from "../services/taskService";
 import { useFormatDate } from "../hooks/useFormateDate";
-
+// useFormatDate
 function Upcoming() {
- const { formatDate, formatDateTomorrow } = useFormatDate();
+  const { formatDate } = useFormatDate();
+
   const [groupedTasks, setGroupedTasks] = useState({
     today: [],
-    tomorrow: [],
     other: [],
   });
 
-  useEffect(() => {
-    if (formatDate && formatDateTomorrow) {
-      fetchTask();
-    }
-  }, [formatDateTomorrow]);
-
-  const fetchTask = async () => {
+  async function fetchTask() {
+    try {
       const response = await getAllTasks();
-      if(response.tasks){
-        grouped(response.tasks);
-      }
-       
-  };
-  function grouped(data){
-    const groupedObj = {
+      groupTasks(response.tasks);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function groupTasks(tasks) {
+    const todayDate = formatDate;
+
+    const grouped = {
       today: [],
-      tomorrow: [],
       other: [],
     };
-    data.forEach(task => {
-      if (task.date == formatDate) {
-        groupedObj.today.push(task);
-      } else if (task.date == formatDateTomorrow) {
-        groupedObj.tomorrow.push(task);
+
+    tasks.forEach((task) => {
+      if (task.date === todayDate) {
+        grouped.today.push(task);
       } else {
-        groupedObj.other.push(task);
+        grouped.other.push(task);
       }
     });
-    setGroupedTasks(groupedObj);
+
+    setGroupedTasks(grouped);
   }
+
+  useEffect(() => {
+    fetchTask();
+  }, []);
 
   return (
     <div className="Upcoming-main">
       <div className="Upcoming-main-title">
-        <h1>Upcoming </h1>
-        <h1>{groupedTasks.tomorrow.length}</h1>
+        <h1>Upcoming</h1>
       </div>
+
       <div className="Upcoming-top">
         <p className="Upcoming-titles">Today</p>
         <div className="Upcoming-task-div">
+          {groupedTasks.today.length === 0 && <p>No tasks for today</p>}
           {groupedTasks.today.map((task) => (
-            // <h4>{task.taskDescription}</h4>
-            <TaskTemplate task={task} />
+            <TaskTemplate key={task.id} task={task} />
           ))}
         </div>
       </div>
+
       <div className="Upcoming-bottom">
-        <div className="Upcoming-bottom-left">
-          <p className="Upcoming-titles">Tommorrow</p>
-          <div className="Upcoming-task-div">
-            {groupedTasks.tomorrow.map((task) => (
-              // <h4>{task.taskDescription}</h4>
-              <TaskTemplate task={task} />
-            ))}
-          </div>
-        </div>
-        <div className="Upcoming-bottom-right">
-          <p className="Upcoming-titles">Week</p>
-          <div className="Upcoming-task-div">
-            {groupedTasks.other.map((task) => (
-              // <h4>{task.taskDescription}</h4>
-              <TaskTemplate task={task} />
-            ))}
-          </div>
+        <p className="Upcoming-titles">Week</p>
+        <div className="Upcoming-task-div">
+          {groupedTasks.other.length === 0 && <p>No upcoming tasks</p>}
+          {groupedTasks.other.map((task) => (
+            <TaskTemplate key={task.id} task={task} />
+          ))}
         </div>
       </div>
     </div>
   );
 }
-
-function TaskTemplate({ task }) {
+const TaskTemplate = React.memo((task )=>{
   return (
-    <div className="Upcoming-task" key={task.taskId}>
-      {task.complete === false ? (
-        <img src="/assets/dry-clean.png" alt="" width={13} height={13} />
-      ) : (
-        <img src="/assets/check-mark.png" alt="" width={13} height={13} />
-      )}
+    <div className="Upcoming-task">
+      <img
+        src={task.complete ? "/assets/check-mark.png" : "/assets/dry-clean.png"}
+        alt=""
+        width={13}
+        height={13}
+      />
 
       <div className="Upcoming-task-subdiv">
-        {task.complete === false ? (
-          <p className="Upcoming-task-title">{task.title}</p>
-        ) : (
-          <p
-            className="Upcoming-task-title"
-            style={{ color: "rgb(217, 217, 217)" }}
-          >
-            {task.title}
-          </p>
-        )}
+        <p
+          className="Upcoming-task-title"
+          style={{
+            color: task.complete ? "rgb(217, 217, 217)" : "inherit",
+          }}
+        >
+          {task.title}
+        </p>
 
         <img src="/assets/right-arrow.png" alt="" width={13} height={13} />
       </div>
     </div>
   );
-}
+},[])
 
 export default Upcoming;

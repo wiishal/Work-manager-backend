@@ -1,5 +1,9 @@
-import { useState,useEffect } from "react";
-import { getAllTasks, toggleStatus,deleteTask } from "../../services/taskService";
+import { useState, useEffect } from "react";
+import {
+  getAllTasks,
+  toggleStatus,
+  deleteTask,
+} from "../../services/taskService";
 export default function RenderTask({
   render,
   setAddTask,
@@ -34,17 +38,16 @@ export default function RenderTask({
       return;
     }
     alert("task deleted!!");
-    setRender(prev => !prev)
+    setRender((prev) => !prev);
   }
   function handleEditTask(Id) {
-
     seteditTaskDiv(Id);
     if (addTask) {
       setAddTask(false);
     }
   }
 
-  if (isLoading) return <div className="loading-div">Loading...</div>;
+  if (isLoading) return <div className="spinner" />;
   return (
     <>
       <h4 className="render-taskCount"> Count : {Task.length}</h4>
@@ -84,20 +87,25 @@ export default function RenderTask({
 }
 
 function BoxImage({ task, setTask, i }) {
+  const [processing, setProcessing] = useState(false);
   async function checkTask(id, i) {
+    setProcessing(true);
     if (!id) return;
-    const res = await toggleStatus(id);
-    if (res) {
-      setTask((prev) => {
-        const newTasks = [...prev];
-        newTasks[i] = { ...newTasks[i], complete: !newTasks[i].complete };
-        return newTasks;
-      });
-      alert("task checked");
-      return;
+    try {
+      const res = await toggleStatus(id);
+      setTask((prev) =>
+        prev.map((item) =>
+          item.id == task.id ? { ...item, complete: res.data.taskStatus } : item
+        )
+      );
+      setProcessing(false);
+    } catch (error) {
+      alert("error");
+    } finally {
+      setProcessing(false);
     }
-    alert("failed to check");
   }
+  if (processing) return <div className="spinner"></div>;
   return (
     <img
       style={{ cursor: "pointer" }}

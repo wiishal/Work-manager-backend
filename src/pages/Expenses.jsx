@@ -7,30 +7,32 @@ import ExpensesPopup from "../componant/ExpensesPopUp";
 function Expenses() {
   const [cards, setCards] = useState([]);
   const [isAddCard, setIsAddCard] = useState(false);
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const fetchExpenses = useCallback(async () => {
     try {
       const res = await fetchExpensesCards();
       setCards(res);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       alert("error!");
     }
   }, []);
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     fetchExpenses();
   }, []);
   return (
     <div className="expenses-main">
       <div className="expenses-UpperSection">
         <h1 className="expenses-mainTitle">Expenses</h1>
-        <button
-          className="expenses-mainAddbtn"
-          onClick={() => setIsAddCard(true)}
-        >
-          Add
-        </button>
+        <div className="expenses-TitleBtn">
+          <button
+            className="expenses-mainAddbtn"
+            onClick={() => setIsAddCard(true)}
+          >
+            Add
+          </button>
+        </div>
       </div>
       {isAddCard && (
         <ExpensesPopup
@@ -39,11 +41,13 @@ function Expenses() {
         />
       )}
       <div className="expenses-LowerSection">
-        {loading && <div className="loading-div">loading....</div>}
+        {loading && <div className="spinner" />}
         <div className="expenses-cardDiv">
           {cards &&
             cards.length > 0 &&
-            cards.map((item) => <ExpensesCard item={item} fetchExpenses={fetchExpenses}/>)}
+            cards.map((item) => (
+              <ExpensesCard item={item} fetchExpenses={fetchExpenses} />
+            ))}
         </div>
       </div>
     </div>

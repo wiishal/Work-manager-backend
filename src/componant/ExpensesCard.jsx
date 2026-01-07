@@ -22,7 +22,7 @@ function ExpensesCard({ item, fetchExpenses }) {
       const res = await addExpense(value, item.id);
       fetchExpenses();
     } catch (error) {
-      setError("error while adding expenses");
+      setError("error while adding entry");
     } finally {
       setProcessing(false);
       setSpendInput("");
@@ -51,7 +51,7 @@ function ExpensesCard({ item, fetchExpenses }) {
         {spends && spends.length > 0 && spends.map((item) => <div>{item.details}</div>)}
       </div>
       {error && <ShowError error={error} closeErrorPopUp={setError} />}
-      {processing && <div>processing...</div>}
+      {processing && <div className="spinner"/>}
 
       <div className="expenses-cardInputs">
         <input
