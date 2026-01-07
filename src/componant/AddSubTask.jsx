@@ -7,51 +7,6 @@ function AddSubTask({ Task, editTaskDiv, fetchTasks }) {
   function subTaskInputHandler(e) {
     setSubTaskInput(e.target.value);
   }
-
-  function checkSubTask(id, i) {
-    axios
-      .post("http://localhost:3000/api/toggleSubtask", {
-        id: id,
-        index: i,
-      })
-      .then((res) => {
-        console.log(res.data);
-        fetchTasks();
-      });
-  }
-  function deleteSubTask(subTask, subTaskindex) {
-    console.log(subTaskindex, " from subtask", subTask);
-    axios
-      .post("http://localhost:3000/api/deleteSubTask", {
-        id: subTask,
-        index: subTaskindex,
-      })
-      .then((res) => {
-        console.log(res.data);
-        fetchTasks();
-      });
-  }
-
-  function addSubTask(id) {
-    if (subtaskInput == "") return;
-    console.log(id);
-
-    const newSubtask = {
-      text: subtaskInput,
-      status: false,
-    };
-    axios
-      .post("http://localhost:3001/api/addSubTask", {
-        id: id,
-        subtask: newSubtask,
-      })
-      .then((res) => {
-        console.log(res.data);
-        fetchTasks();
-      });
-
-    setSubTaskInput("");
-  }
   return (
     <div className="addsubTask">
       <h3>Sub Task</h3>

@@ -89,19 +89,7 @@ const [userStr, setUserStr] = useState({
               </div>
             </div>
           </li>
-          <li>
-            <div className="section-div">
-              <div className="icon-div">
-                <img
-                  src="https://res.cloudinary.com/ddg85vpnk/image/upload/v1739965624/calendar_s9wgbg.png"
-                  alt=""
-                  width={15}
-                  height={15}
-                />
-                <Link to="/Calender">Calender</Link>
-              </div>
-            </div>
-          </li>
+          
           <li>
             <div className="icon-div">
               <img

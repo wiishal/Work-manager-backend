@@ -1,45 +1,44 @@
 import { useParams } from "react-router-dom";
-import "../../style/TagDetails.css"
+import "../../style/TagDetails.css";
 import { useEffect, useState } from "react";
 import { getTagTask } from "../../services/userStrService";
 
 function TagDetails() {
   const { tag } = useParams();
   const [task, setTask] = useState([]);
-  const [isLoading,setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true)
-    setTask([])
+    setIsLoading(true);
     fetch();
   }, [tag]);
 
- async function fetch() {
-   if(!tag) return 
-   const data = await getTagTask(tag)
-   if(!data){
-    alert("failed to fetch tasks")
-    setTask()
-    setIsLoading(false);
-    return
-   }
-   setTask(data.tasks);
+  async function fetch() {
+    if (!tag) return;
+    const data = await getTagTask(tag);
+    if (!data) {
+      alert("failed to fetch tasks");
+      setTask([]);
+      setIsLoading(false);
+      return;
+    }
+    setTask(data.tasks);
     setIsLoading(false);
   }
-  if (isLoading) return <div className="loading-div">loading...</div>
-    return (
-      <div className="list-main">
-        <div className="list-title">
-          <h1>{tag}</h1>
-          <h1>{task.length}</h1>
-        </div>
-        <div className="list-taskMainDiv">
-          {task.map((task) => (
-            <Task task={task} />
-          ))}
-        </div>
+  if (isLoading) return <div className="loading-div">loading...</div>;
+  return (
+    <div className="list-main">
+      <div className="list-title">
+        <h1>{tag}</h1>
+        <h1>{task.length}</h1>
       </div>
-    );
+      <div className="list-taskMainDiv">
+        {task.map((task) => (
+          <Task task={task} />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function Task({ task }) {

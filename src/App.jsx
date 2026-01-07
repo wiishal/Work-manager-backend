@@ -10,7 +10,6 @@ import TagDetails from "./componant/tags/TagDetails.jsx";
 import ListDetails from "./componant/list/ListDetails.jsx";
 
 function App({ user }) {
-  console.log("in app");
   return (
     <div className="main">
       <Nav currUser={user} />

@@ -1,5 +1,6 @@
 const url = import.meta.env.VITE_API_URL;
 import axios from "axios";
+import axiosInstance from "../lib/axiosInstance";
 
 export async function getAllTasks() {
   const token = localStorage.getItem("token");
@@ -7,12 +8,7 @@ export async function getAllTasks() {
     return false;
   }
   try {
-    const res = await axios.get(`${url}/api/v1/task/allTasks`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axiosInstance.get(`${url}/task/allTasks`);
     if (res.status !== 200) {
       return false;
     }
@@ -24,18 +20,8 @@ export async function getAllTasks() {
 }
 
 export async function getTask(id) {
-  const token = localStorage.getItem("token");
-  console.log("from gettask : ", id);
-  if (!token) {
-    return false;
-  }
   try {
-    const res = await axios.get(`${url}/api/v1/task/getTask/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axiosInstance.get(`${url}/task/getTask/${id}`);
     if (res.status !== 200) {
       return false;
     }
@@ -47,22 +33,10 @@ export async function getTask(id) {
 }
 
 export async function addTask(task) {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    return false;
-  }
   try {
-    const res = await axios.post(
-      `${url}/api/v1/task/addTask`,
-      { task },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await axiosInstance.post(`${url}/task/addTask`, {
+      task,
+    });
     if (res.status !== 200) {
       return false;
     }
@@ -73,22 +47,10 @@ export async function addTask(task) {
   }
 }
 export async function updateTask(updatedTask) {
-  const token = localStorage.getItem("token");
-  console.log("from addTask : ", updatedTask);
-  if (!token) {
-    return false;
-  }
   try {
-    const res = await axios.put(
-      `${url}/api/v1/task/updateTask`,
-      { updatedTask },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await axiosInstance.put(`${url}/task/updateTask`, {
+      updatedTask,
+    });
     if (res.status !== 200) {
       return false;
     }
@@ -99,22 +61,10 @@ export async function updateTask(updatedTask) {
   }
 }
 export async function toggleStatus(id) {
-  const token = localStorage.getItem("token");
-  console.log("from check : ", id);
-  if (!token) {
-    return false;
-  }
   try {
-    const res = await axios.put(
-      `${url}/api/v1/task/toggleStatus`,
-      { id },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await axiosInstance.put(`${url}/task/toggleStatus`, {
+      id,
+    });
     if (res.status !== 200) {
       return false;
     }
@@ -126,24 +76,16 @@ export async function toggleStatus(id) {
 }
 
 export async function deleteTask(id) {
-  const token = localStorage.getItem("token");
-  console.log("from gettask : ", id);
-  if (!token) {
-    return false;
-  }
   try {
-    const res = await axios.delete(`${url}/api/v1/task/deleteTask/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axiosInstance.delete(
+      `${url}/task/deleteTask/${id}`
+    );
     if (res.status !== 200) {
       return false;
     }
     return res.data;
   } catch (error) {
     console.log("error while deleting task", error);
-    return false;
+    return false; 
   }
 }

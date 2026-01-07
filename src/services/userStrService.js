@@ -7,7 +7,7 @@ export async function getUserTaskStr() {
     return false;
   }
   try {
-    const res = await axios.get(`${url}/api/v1/userStr/userTaskStr`, {
+    const res = await axios.get(`${url}/userStr/userTaskStr`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -30,7 +30,7 @@ export async function addtag(tag) {
   }
   try {
     const res = await axios.post(
-      `${url}/api/v1/userStr/addTag`,
+      `${url}/userStr/addTag`,
       { tag },
       {
         headers: {
@@ -55,7 +55,7 @@ export async function getTagTask(tag) {
     return false;
   }
   try {
-    const res = await axios.get(`${url}/api/v1/userStr/tag/${tag}`, {
+    const res = await axios.get(`${url}/userStr/tag/${tag}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -80,7 +80,7 @@ export async function getListTask(list) {
     return false;
   }
   try {
-    const res = await axios.get(`${url}/api/v1/userStr/list/${list}`, {
+    const res = await axios.get(`${url}/userStr/list/${list}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

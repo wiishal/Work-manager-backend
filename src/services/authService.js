@@ -1,41 +1,27 @@
 const url = import.meta.env.VITE_API_URL;
-import axios from "axios";
-console.log(url);
+import axiosInstance from "../lib/axiosInstance";
+
 export async function login(userDetails) {
-  try {
-    const response = await axios.post(`${url}/api/v1/auth/login`, userDetails, {
+  const response = await axiosInstance.post(
+    `${url}/auth/login`,
+    userDetails,
+    {
       withCredentials: true,
-    });
-    if (response) {
-      return response;
     }
-  } catch (error) {
-    console.log("error during login", error);
-    return false;
-  }
+  );
+  return response.data;
 }
 export async function signUp(userDetails) {
-  try {
-    const response = await axios.post(`${url}/api/v1/auth/signup`, userDetails);
-    if (response) {
-      return response;
-    }
-    return false;
-  } catch (error) {
-    console.log("error during signup", error);
-    return false;
-  }
+  const response = await axiosInstance.post(
+    `${url}/auth/signup`,
+    userDetails
+  );
+  return response.data;
 }
 export async function validateViaToken(userToken) {
-  try {
-    const response = await axios.post(`${url}/api/v1/auth/validate`, {
-      token: userToken,
-    });
-    if (response) {
-      return response;
-    }
-  } catch (error) {
-    console.log("error while validation", error);
-    return false;
-  }
+  const response = await axiosInstance.post(`${url}/auth/validate`, {
+    token: userToken,
+  });
+
+  return response.data;
 }

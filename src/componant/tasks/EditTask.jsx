@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react"
-import { getTask,updateTask } from "../../services/taskService";
+import { useEffect, useState } from "react";
+import { getTask, updateTask } from "../../services/taskService";
 import { useDate } from "../../hooks/useDate";
-
+import AddSubTask from "../AddSubTask";
 
 function EditTask({ setRender, editTaskDiv, seteditTaskDiv }) {
   const today = useDate();
@@ -17,19 +17,7 @@ function EditTask({ setRender, editTaskDiv, seteditTaskDiv }) {
   });
   const [edit, setEdit] = useState({ title: false, des: false });
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setTask({
-      id: null,
-      userId: null,
-      complete: false,
-      title: "",
-      taskDescription: "",
-      date: today,
-      list: [],
-      tags: [],
-    });
-    async function fetchtask(editTaskDiv) {
+  async function fetchtask(editTaskDiv) {
       const res = await getTask(editTaskDiv);
       if (res) {
         setTask({
@@ -46,6 +34,7 @@ function EditTask({ setRender, editTaskDiv, seteditTaskDiv }) {
         return;
       }
     }
+  useEffect(() => {
     fetchtask(editTaskDiv);
   }, [editTaskDiv]);
 
@@ -178,8 +167,9 @@ function EditTask({ setRender, editTaskDiv, seteditTaskDiv }) {
           Cancel
         </button>
       </div>
+      {/* <AddSubTask Task={Task} editTaskDiv={editTaskDiv} fetchtask={fetchtask} /> */}
     </div>
   );
 }
 
-export default EditTask
+export default EditTask;
