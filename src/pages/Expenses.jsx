@@ -11,7 +11,6 @@ function Expenses() {
   const fetchExpenses = useCallback(async () => {
     try {
       const res = await fetchExpensesCards();
-      console.log(res, ": fetchExpenses")
       setCards(res);
       setLoading(false)
     } catch (error) {

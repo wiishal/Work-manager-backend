@@ -1,18 +1,8 @@
 const url = import.meta.env.VITE_API_URL;
-import axios from "axios";
-
+import axiosInstance from "../lib/axiosInstance";
 export async function getUserTaskStr() {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    return false;
-  }
   try {
-    const res = await axios.get(`${url}/userStr/userTaskStr`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axiosInstance.get(`${url}/userStr/userTaskStr`);
     if (res.status !== 200) {
       return false;
     }
@@ -29,16 +19,7 @@ export async function addtag(tag) {
     return false;
   }
   try {
-    const res = await axios.post(
-      `${url}/userStr/addTag`,
-      { tag },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await axiosInstance.post(`${url}/userStr/addTag`, { tag });
     if (res.status !== 200) {
       return false;
     }
@@ -50,17 +31,8 @@ export async function addtag(tag) {
 }
 
 export async function getTagTask(tag) {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    return false;
-  }
   try {
-    const res = await axios.get(`${url}/userStr/tag/${tag}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axiosInstance.get(`${url}/userStr/tag/${tag}`);
     if (res.status !== 200) {
       return false;
     }
@@ -75,17 +47,8 @@ export async function getTagTask(tag) {
 }
 
 export async function getListTask(list) {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    return false;
-  }
   try {
-    const res = await axios.get(`${url}/userStr/list/${list}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axiosInstance.get(`${url}/userStr/list/${list}`);
     if (res.status !== 200) {
       return false;
     }

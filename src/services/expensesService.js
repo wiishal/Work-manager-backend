@@ -14,11 +14,9 @@ export async function addNewCard(title) {
 }
 
 export async function addExpense(spend, expenseCardId) {
-  console.log("in service",spend,expenseCardId)
   const res = await axiosInstance.post(`${url}/expenses/addExpense`, {
     spend,
     expenseCardId,
   });
-  console.log(res, " from serveice expenses")
   return res.data;
 }

@@ -2,21 +2,12 @@ import { useState,useEffect } from "react";
 import ShowError from "./ShowError";
 import { addExpense } from "../services/expensesService";
 function ExpensesCard({ item, fetchExpenses }) {
-  const [spends, setSpends] = useState([]) ; //expenses is an []
+  const [spends, setSpends] = useState([]) ;
   const [spendInput, setSpendInput] = useState("");
   const [totolExpense, setTotalExpense] = useState();
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
 
-  /*[
-      {
-          "id": 2,
-          "name": "trip",
-          "userId": 1,
-          "createdAt": "2026-01-05T17:25:26.097Z",
-          "expenses": []
-      }
-  ] */
 
   async function addSpends() {
     const value = spendInput.trim("");
@@ -28,12 +19,10 @@ function ExpensesCard({ item, fetchExpenses }) {
     try {
       setProcessing(true);
       setError(null);
-      console.log("req for add expense", value);
       const res = await addExpense(value, item.id);
-      console.log("response from addexpense :", res);
       fetchExpenses();
     } catch (error) {
-      console.log("error while adding expenses", error);
+      setError("error while adding expenses");
     } finally {
       setProcessing(false);
       setSpendInput("");

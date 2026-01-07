@@ -13,7 +13,6 @@ export default function ExpensesPopup({ setIsAddCard, fetchExpenses }) {
 
     try {
       const res = await addNewCard(title);
-      console.log(res);
       setTitle("")
       fetchExpenses();
     } catch (error) {
