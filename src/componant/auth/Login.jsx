@@ -35,11 +35,7 @@ export default function Login({ setLogged, setUserName }) {
       navigate("/");
     } catch (error) {
       console.error("Error during login:", error);
-      if (error.response.status == 403) {
-        setError("Invalid username and password");
-      } else {
-        setError("Internal Server Error!");
-      }
+      setError("Internal Server Error!");
       setIsProcessing(false);
     } finally {
       setIsProcessing(false);

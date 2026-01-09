@@ -3,6 +3,7 @@ import SelectTags from "../tags/SelectTags";
 import { addTask } from "../../services/taskService";
 import List from "../list/List";
 import { useFormatDate } from "../../hooks/useFormateDate";
+import ShowError from "../ShowError";
 
 export default function AddTask({ setRender }) {
   const { date } = useFormatDate();
@@ -61,13 +62,13 @@ export default function AddTask({ setRender }) {
       alert("task added successfully");
       setError(null);
       setRender((prev) => !prev);
-      clearInputs()
+      clearInputs();
     }
   }
 
   return (
     <div className="addtask-main">
-      {error && <div>{error}</div>}
+      {error && <ShowError error={error} closeErrorPopUp={setError} />}
       <div className="addtask-title">
         <label>Title</label>
         <input

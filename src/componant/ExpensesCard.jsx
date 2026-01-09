@@ -1,13 +1,12 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import ShowError from "./ShowError";
 import { addExpense } from "../services/expensesService";
 function ExpensesCard({ item, fetchExpenses }) {
-  const [spends, setSpends] = useState([]) ;
+  const [spends, setSpends] = useState([]);
   const [spendInput, setSpendInput] = useState("");
   const [totolExpense, setTotalExpense] = useState();
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
-
 
   async function addSpends() {
     const value = spendInput.trim("");
@@ -29,16 +28,19 @@ function ExpensesCard({ item, fetchExpenses }) {
     }
   }
   useEffect(() => {
-  setSpends(item.expenses);
-}, [item.expenses]);
+    setSpends(item.expenses);
+  }, [item.expenses]);
 
+  const handleKeyEvent = (e) => {
+    if (e.key == "Enter") {
+      addSpends();
+    }
+  };
 
   return (
     <div key={item.id} className="expenses-card">
       <div className="expensesCard-titleDiv">
-        <p className="expensesCard-title">
-          {item.createdAt.split("T")[0]}
-        </p>
+        <p className="expensesCard-title">{item.createdAt.split("T")[0]}</p>
         <button className="expenses-Calculatebtn" onClick={() => {}}>
           Calculate
         </button>
@@ -48,13 +50,16 @@ function ExpensesCard({ item, fetchExpenses }) {
         <div className="expenses-ItemTitleDiv">
           <h4>{item.name}</h4>
         </div>
-        {spends && spends.length > 0 && spends.map((item) => <div>{item.details}</div>)}
+        {spends &&
+          spends.length > 0 &&
+          spends.map((item) => <div>{item.details}</div>)}
       </div>
       {error && <ShowError error={error} closeErrorPopUp={setError} />}
-      {processing && <div className="spinner"/>}
+      {processing && <div className="spinner" />}
 
       <div className="expenses-cardInputs">
         <input
+          onKeyDown={handleKeyEvent}
           className="expense-Addinput"
           value={spendInput}
           onChange={(e) => setSpendInput(e.target.value)}

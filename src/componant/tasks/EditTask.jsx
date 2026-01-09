@@ -5,6 +5,7 @@ import AddSubTask from "../AddSubTask";
 
 function EditTask({ setRender, editTaskDiv, seteditTaskDiv }) {
   const today = useDate();
+  const [processing, setProcessing] = useState(false);
   const [Task, setTask] = useState({
     id: null,
     userId: null,
@@ -14,26 +15,30 @@ function EditTask({ setRender, editTaskDiv, seteditTaskDiv }) {
     date: today,
     list: [],
     tags: [],
+    Subtask: [],
   });
   const [edit, setEdit] = useState({ title: false, des: false });
   const [isLoading, setIsLoading] = useState(true);
+
   async function fetchtask(editTaskDiv) {
-      const res = await getTask(editTaskDiv);
-      if (res) {
-        setTask({
-          id: res.task.id,
-          userId: res.task.UserId,
-          complete: res.task.complete,
-          title: res.task.title,
-          taskDescription: res.task.taskDescription,
-          date: res.task.date,
-          list: res.task.list,
-          tags: res.task.tags,
-        });
-        setIsLoading(false);
-        return;
-      }
+    const res = await getTask(editTaskDiv);
+    if (res) {
+      setTask({
+        id: res.task.id,
+        userId: res.task.UserId,
+        complete: res.task.complete,
+        title: res.task.title,
+        taskDescription: res.task.taskDescription,
+        date: res.task.date,
+        list: res.task.list,
+        tags: res.task.tags,
+        Subtask: res.task.Subtask,
+      });
+      setIsLoading(false);
+      return;
     }
+  }
+
   useEffect(() => {
     fetchtask(editTaskDiv);
   }, [editTaskDiv]);
@@ -47,26 +52,32 @@ function EditTask({ setRender, editTaskDiv, seteditTaskDiv }) {
   }
 
   async function update() {
+    setProcessing(true);
     const data = { title: Task.title, date: Task.date };
     const isInputEmpty = checkInputs(data);
     if (isInputEmpty) {
       alert("Check title and Date");
       return;
     }
-    const res = await updateTask({
-      ...data,
-      id: Task.id,
-      complete: Task.complete,
-      taskDescription: Task.taskDescription,
-      tags: Task.list,
-      list: Task.tags,
-    });
-    if (res) {
-      alert("task updated successfully");
-      setRender((prev) => !prev);
-      return;
+    try {
+      const res = await updateTask({
+        ...data,
+        id: Task.id,
+        complete: Task.complete,
+        taskDescription: Task.taskDescription,
+        tags: Task.list,
+        list: Task.tags,
+      });
+      if (res) {
+        alert("task updated successfully");
+        setRender((prev) => !prev);
+        return;
+      }
+    } catch (error) {
+      alert("failed to update task");
+    } finally {
+      setProcessing(false);
     }
-    alert("failed to update task");
   }
 
   function setEditHandler(field) {
@@ -155,19 +166,23 @@ function EditTask({ setRender, editTaskDiv, seteditTaskDiv }) {
         </div>
       </div>
       <div>
-        <button onClick={update} className="styled-button ">
-          save
-        </button>
+        {processing ? (
+          <div className="spinner" />
+        ) : (
+          <button onClick={update} className="baseBtnClass">
+            save
+          </button>
+        )}
         <button
           onClick={() => {
             seteditTaskDiv(null);
           }}
-          className="styled-button "
+          className="baseBtnClass"
         >
           Cancel
         </button>
       </div>
-      {/* <AddSubTask Task={Task} editTaskDiv={editTaskDiv} fetchtask={fetchtask} /> */}
+      <AddSubTask Task={Task} editTaskDiv={editTaskDiv} fetchtask={fetchtask} />
     </div>
   );
 }
