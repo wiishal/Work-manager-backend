@@ -5,6 +5,7 @@ import taskRoute from "./routes/taskRoute";
 import { tokenVerify } from "./middleware/tokenVerification";
 import userStr from "./routes/userStrRoute";
 import expensesRoute from "./routes/expensesRoute";
+import subtaskRoute from "./routes/subtaskRoute";
 
 const app = new Hono<{
   Bindings: {
@@ -31,7 +32,7 @@ app.use("/api/v1/expenses/*", tokenVerify);
 
 app.route("/api/v1/auth", authRoute);
 app.route("/api/v1/task", taskRoute);
-app.route("/api/v1/subtask", taskRoute);
+app.route("/api/v1/subtask", subtaskRoute);
 app.route("/api/v1/userStr", userStr);
 app.route("/api/v1/expenses", expensesRoute);
 export default app;

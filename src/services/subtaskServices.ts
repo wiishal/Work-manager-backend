@@ -2,34 +2,37 @@ import { Context } from "hono";
 import { getPrisma } from "../config/prismaClient";
 import { subtaskConstant } from "../constants/type";
 
-export async function getSubtasks(c:Context,taskId:number){
-    const prisma = getPrisma(c.env.PRISMA_ACCELERATE_URL)
-    try {
-        const subtasks = await prisma.subtask.findMany({
-            where:{taskId:taskId}
-        })
-        if(!subtasks){
-            return false
-        }
-        return subtasks
-    } catch (error) {
-        return false
+export async function getSubtasks(c: Context, taskId: number) {
+  const prisma = getPrisma(c.env.PRISMA_ACCELERATE_URL);
+  try {
+    const subtasks = await prisma.subtask.findMany({
+      where: { taskId: taskId },
+    });
+    if (!subtasks) {
+      return false;
     }
+    return subtasks;
+  } catch (error) {
+    return false;
+  }
 }
 
 export async function addSubTask(c: Context, subtask: subtaskConstant) {
-    const prisma = getPrisma(c.env.PRISMA_ACCELERATE_URL)
-    try {
-        const createdSubtask = await prisma.subtask.create({
-            data:subtask
-        })
-        if(!createdSubtask){
-            return false
-        }
-        return createdSubtask
-    } catch (error) {
-        return false
+  const prisma = getPrisma(c.env.PRISMA_ACCELERATE_URL);
+  try {
+    const createdSubtask = await prisma.subtask.create({
+      data: {
+        taskId: subtask.taskId,
+        detail: subtask.detail,
+      },
+    });
+    if (!createdSubtask) {
+      return false;
     }
+    return createdSubtask;
+  } catch (error) {
+    return false;
+  }
 }
 export async function tooggleSubTask(c: Context, id: number) {
   const prisma = getPrisma(c.env.PRISMA_ACCELERATE_URL);
@@ -52,17 +55,17 @@ export async function tooggleSubTask(c: Context, id: number) {
   }
 }
 
-export async function deleteSubTask(c:Context,id:number){
-  const prisma = getPrisma(c.env.PRISMA_ACCELERATE_URL)
+export async function deleteSubTask(c: Context, id: number) {
+  const prisma = getPrisma(c.env.PRISMA_ACCELERATE_URL);
   try {
     const res = await prisma.task.delete({
-      where:{id:id}
-    })
-    if(!res){
-      return false
+      where: { id: id },
+    });
+    if (!res) {
+      return false;
     }
-    return true
+    return true;
   } catch (error) {
-    return false
+    return false;
   }
 }

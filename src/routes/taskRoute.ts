@@ -69,7 +69,7 @@ taskRoute.put("/toggleStatus", async (c) => {
       return c.json({message:"task not found"})
     }
     c.status(200)
-    return c.json({message:"status change successfully",taskid:updatedTask.id}) 
+    return c.json({message:"status change successfully", taskStatus:updatedTask.complete}) 
 });
 
 taskRoute.put("/updateTask", async(c)=>{
