@@ -27,7 +27,6 @@ export default function Login({ setLogged, setUserName }) {
     }
 
     setIsProcessing(true);
-
     try {
       const response = await login(user);
 
@@ -36,7 +35,6 @@ export default function Login({ setLogged, setUserName }) {
       setLogin(response.user);
       navigate("/");
     } catch (error) {
-      console.error("Error during login:", error);
       setError("Internal Server Error!");
       setIsProcessing(false);
     } finally {

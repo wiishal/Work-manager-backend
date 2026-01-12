@@ -1,6 +1,7 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { addtag } from "../../services/userStrService";
+import { plusPng } from "../../assets/assets";
 
 function Tags({ Tags }) {
   const [tags, setTags] = useState(Tags);
@@ -10,10 +11,8 @@ function Tags({ Tags }) {
   useEffect(() => {
     setTags(Tags || []);
   }, [Tags]);
-  
 
-
-function addTag() {
+  function addTag() {
     const trimmedValue = tagInputValue.trim();
     if (trimmedValue !== "") {
       setTags((prevTags) => [...prevTags, trimmedValue]);
@@ -23,17 +22,17 @@ function addTag() {
     }
   }
 
-async function saveTag(tagInputValue) {
-      if(!tagInputValue) {
-        alert("enter something")
-        return
-      }
-      const responce = await addtag(tagInputValue)
-      if(!responce) {
-        alert("error whle saving");
-        return;
-      }
-      alert("tag added",tagInputValue)
+  async function saveTag() {
+    if (!tagInputValue) {
+      alert("enter something");
+      return;
+    }
+    const responce = await addtag(tagInputValue);
+    if (!responce) {
+      alert("error whle saving");
+      return;
+    }
+    alert("tag added", tagInputValue);
   }
 
   return (
@@ -42,8 +41,11 @@ async function saveTag(tagInputValue) {
         <p>Tags</p>
         <img
           style={{ cursor: "pointer" }}
-          onClick={() => setIsTagInputDiv((prev) => !prev)}
-          src="https://res.cloudinary.com/ddg85vpnk/image/upload/v1739965627/plus_ofocwp.png"
+          onClick={() => {
+            console.log("h");
+            setIsTagInputDiv((prev) => !prev);
+          }}
+          src={plusPng}
           alt=""
           width={15}
           height={15}
@@ -56,28 +58,20 @@ async function saveTag(tagInputValue) {
               <Link to={`/Tags/${tag}`}>{tag}</Link>
             </div>
           ))}
-
-          {isTagInputDiv && (
-            <div className="nav-tagInputDiv">
-              <input
-                value={tagInputValue}
-                onChange={(e) => setTagInputValue(e.target.value)}
-                className="tag-input"
-                type="text"
-              />
-              <img
-                style={{ cursor: "pointer" }}
-                onClick={addTag}
-                src="https://res.cloudinary.com/ddg85vpnk/image/upload/v1739965627/plus_ofocwp.png"
-                alt=""
-                width={15}
-                height={15}
-              />
-            </div>
-          )}
         </div>
       ) : (
-        <div>there is no tags</div>
+        <div>Add tags</div>
+      )}
+      {isTagInputDiv && (
+        <div className="nav-tagInputDiv">
+          <input
+            value={tagInputValue}
+            onChange={(e) => setTagInputValue(e.target.value)}
+            className="tag-input"
+            type="text"
+          />
+          <button className="baseBtnClass" onClick={saveTag}>save</button>
+        </div>
       )}
     </div>
   );

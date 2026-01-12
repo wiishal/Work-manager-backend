@@ -35,7 +35,6 @@ export default function Signup() {
       navigate("/");
     } catch (error) {
       setError("Internal Error occured!");
-      console.error("Error during login:", error);
       setIsProcessing(false);
     } finally {
       setIsProcessing(false);

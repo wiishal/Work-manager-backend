@@ -29,7 +29,7 @@ function ExpensesCard({ item, fetchExpenses }) {
     } catch (error) {
       setError("error while adding entry");
     } finally {
-      setProcessing((prev) => ({ ...prev, addTaskProcessing: true }));
+      setProcessing((prev) => ({ ...prev, addTaskProcessing: false }));
       setSpendInput("");
     }
   }
@@ -37,14 +37,12 @@ function ExpensesCard({ item, fetchExpenses }) {
   const calculateExpenseAssistance = async () => {
     try {
       setProcessing((prev) => ({ ...prev, calculateSpentProcessing: true }));
-
+      setError(null);
       const res = await calculateSpendAssistance(spends);
-      console.log(res.result);
       setTotalExpense(res.result);
-      setProcessing((prev) => ({ ...prev, calculateSpentProcessing: true }));
+      setProcessing((prev) => ({ ...prev, calculateSpentProcessing: false }));
     } catch (error) {
       setError("error while assist");
-      console.log(error, "expence card");
     } finally {
       setProcessing((prev) => ({ ...prev, calculateSpentProcessing: false }));
     }
@@ -65,7 +63,9 @@ function ExpensesCard({ item, fetchExpenses }) {
       <div className="expensesCard-titleDiv">
         <p className="expensesCard-title">{item.createdAt.split("T")[0]}</p>
         <div className="expense-calculateSpendDiv">
-          {processing.calculateSpentProcessing && <div className="spinner"></div>}
+          {processing.calculateSpentProcessing && (
+            <div className="spinner"></div>
+          )}
           <button
             className="expenses-Calculatebtn"
             onClick={calculateExpenseAssistance}

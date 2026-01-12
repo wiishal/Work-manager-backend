@@ -58,7 +58,7 @@ function AddSubTask({ TaskId, taskTitle, taskDescription }) {
       return;
     }
     try {
-      const res = await addSubTask(subtaskInput, Task.id);
+      const res = await addSubTask(subtaskInput, TaskId);
       setSubTasks((prev) => [...prev, res.subtask]);
     } catch (error) {
       console.log(error)

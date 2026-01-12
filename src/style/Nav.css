@@ -119,3 +119,12 @@ a{
     gap: 1em;
     width: fit-content;
 }
+
+.baseBtnClass {
+  width: fit-content;
+  font-size: 0.7rem;
+  font-weight: 500;
+  border-radius: 0.3rem;
+  border-color: aliceblue;
+  cursor: pointer;
+}
