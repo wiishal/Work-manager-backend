@@ -110,15 +110,18 @@ export async function updateTask(c: Context, task: tasksDBConstant) {
 export async function deleteTask(c: Context, currid: number) {
   const prisma = getPrisma(c.env.PRISMA_ACCELERATE_URL);
   try {
-    const task = await prisma.task.delete({
-      where: {
-        id: currid,
-      },
-    });
+    await prisma.$transaction([
+      prisma.subtask.deleteMany({
+        where: { taskId: currid },
+      }),
+      prisma.task.delete({
+        where: { id: currid },
+      }),
+    ]);
 
-    return task;
+    return true;
   } catch (error) {
-    console.log("error while getting task from DB");
+    console.log("error while getting task from DB", error);
     return false;
   }
 }

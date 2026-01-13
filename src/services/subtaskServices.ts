@@ -38,14 +38,12 @@ export async function tooggleSubTask(c: Context, id: number) {
   const prisma = getPrisma(c.env.PRISMA_ACCELERATE_URL);
   try {
     const existingsubTask = await prisma.subtask.findUnique({
-      where: {
-        id: id,
-      },
+      where: { id: id },
     });
     if (!existingsubTask) {
       return false;
     }
-    const updatedTask = await prisma.task.update({
+    const updatedTask = await prisma.subtask.update({
       where: { id: id },
       data: { complete: !existingsubTask.complete },
     });
@@ -58,7 +56,7 @@ export async function tooggleSubTask(c: Context, id: number) {
 export async function deleteSubTask(c: Context, id: number) {
   const prisma = getPrisma(c.env.PRISMA_ACCELERATE_URL);
   try {
-    const res = await prisma.task.delete({
+    const res = await prisma.subtask.delete({
       where: { id: id },
     });
     if (!res) {

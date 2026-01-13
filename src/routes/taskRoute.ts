@@ -96,6 +96,7 @@ taskRoute.put("/updateTask", async(c)=>{
 taskRoute.delete("/deleteTask/:id",async(c)=>{
   const id = c.req.param("id");
   const currID = Number(id);
+  console.log(currID,"req for del", currID)
 
   const response = await deleteTask(c,currID)
    if (!response) {

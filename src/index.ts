@@ -20,7 +20,6 @@ app.use(
     origin: ["http://localhost:5173", "https://work-manager-vn27.vercel.app"],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
   })
 );
 app.get("/", (c) => c.json({ health: "ok" }));

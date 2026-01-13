@@ -39,6 +39,16 @@ export interface GetAllExpensesConstant {
 export interface AddNewCardConstant {
   newCard: ExpenseCard;
 }
-export interface AddNewExpenseConstant{
-  newSpend:Expenses
+export interface AddNewExpenseConstant {
+  newSpend: Expenses;
+}
+
+export interface userCredentials {
+  username: string;
+  password: string;
+}
+
+export interface TaskDetails {
+  title: string;
+  description: string;
 }

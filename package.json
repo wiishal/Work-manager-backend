@@ -7,6 +7,7 @@
   "dependencies": {
     "@prisma/client": "^6.3.1",
     "@prisma/extension-accelerate": "^1.2.1",
+    "bcryptjs": "^3.0.3",
     "dotenv": "^16.4.7",
     "hono": "^4.10.6",
     "mongoose": "^8.9.7",
@@ -15,7 +16,8 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250109.0",
+    "@types/bcrypt": "^6.0.0",
     "@types/mongoose": "^5.11.97",
-    "wrangler": "^3.101.0"
+    "wrangler": "^4.58.0"
   }
 }

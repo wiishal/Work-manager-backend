@@ -5,7 +5,12 @@ import {
   getSubtasks,
   tooggleSubTask,
 } from "../services/subtaskServices";
-import { subtaskInputs } from "../validation/tasks";
+import {
+  subtaskAssistanceAiResponse,
+  subtaskInputs,
+  taskDetailsInputs,
+} from "../validation/subtasks";
+import { subTaskAssistance } from "../services/aiService";
 
 const subtaskRoute = new Hono<{
   Bindings: {
@@ -46,8 +51,10 @@ subtaskRoute.post("/addSubTask", async (c) => {
   });
 });
 
-subtaskRoute.get("/toggleSubtask", async (c) => {
+subtaskRoute.post("/toggleSubtask", async (c) => {
+  console.log('toogle task req')
   const body = await c.req.json();
+  console.log(body)
   const updatedsubTask = await tooggleSubTask(c, body.id);
   if (!updatedsubTask) {
     c.status(404);
@@ -56,21 +63,47 @@ subtaskRoute.get("/toggleSubtask", async (c) => {
   c.status(200);
   return c.json({
     message: "status change successfully",
-    subtaskid: updatedsubTask.id,
+    completeStatus: updatedsubTask.complete,
   });
 });
 
 subtaskRoute.delete("/deleteSubTask/:id", async (c) => {
+  console.log("id");
   const id = c.req.param("id");
   const currId = Number(id);
+  console.log(currId);
   const res = await deleteSubTask(c, currId);
   if (!res) {
     c.status(403);
     return c.json({ message: "error while deleting" });
   }
 
-  c.status(400);
+  c.status(200);
   return c.json({ message: "subtask deleted successfully" });
 });
 
+subtaskRoute.post("/assistance", async (c) => {
+  const body = await c.req.json();
+  console.log(body);
+  const { success } = taskDetailsInputs.safeParse(body);
+
+  if (!success) {
+    c.status(403);
+    return c.json({ message: "error while assistance" });
+  }
+  const response = await subTaskAssistance(c, body.taskDetails);
+  if (!response) {
+    c.status(403);
+    return c.json({ message: "error while assistance" });
+  }
+  const { success: isSafeParsed } =
+    subtaskAssistanceAiResponse.safeParse(response);
+
+  if (!isSafeParsed) {
+    c.status(403);
+    return c.json({ message: "error while assistance" });
+  }
+  c.status(200);
+  return c.json({ subtasks: response });
+});
 export default subtaskRoute;

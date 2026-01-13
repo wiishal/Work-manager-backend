@@ -20,16 +20,3 @@ export const taskUpdateInputs = z.object({
   list: z.array(z.string()),
 });
 
-export const subtaskInputs = z.object({
-  taskId: z.number().min(1).max(20),
-  detail: z.string(),
-});
-
-export const AddNewCardInput = z.object({
-  title: z.string().max(20).min(1),
-});
-
-export const AddExpenseInput = z.object({
-  spend: z.string().min(1).max(50),
-  expenseCardId: z.number(),
-});

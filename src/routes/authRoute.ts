@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { checkUser, createUser, signJWT, verifyJWT } from "../services/userServices";
+import bcrypt from 'bcryptjs'
 
 
 const authRoute = new Hono<{
@@ -17,11 +18,11 @@ authRoute.post("/login", async (c) => {
     c.status(403);
     return c.json({ message: "login failed" });
   }
+  const isMatch = bcrypt.compareSync(body.password, existing.user.password); 
 
-  const isMatch = body.password === existing.user.password;
   if (!isMatch) {
     c.status(403);
-    return c.json({ message: "login failed" });
+    return c.json({ message: "login failed! wrong password" });
   }
 
   const token = await signJWT(
