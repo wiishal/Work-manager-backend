@@ -1,0 +1,53 @@
+import { INVALID } from "zod";
+
+export const errorMessages = {
+  INVALID_CREDENTIALS: "Email or password is incorrect",
+  USER_NOT_FOUND: "Account does not exist",
+  USER_ALREADY_EXISTS: "Username already taken",
+  ERROR_WHILE_CREATING_USER: "Error while creating user",
+  SESSION_EXPIRED: "Session has expired. Please login again",
+  NETWORK_ERROR: "Check your internet connection",
+  SERVER_ERROR: "Something went wrong",
+
+  FAILED_FETCHING_TASKS: "Failed to fetch tasks",
+  INVALID_INPUTS: "Provided inputs are invalid",
+  FAILED_DURING_PROCESS: "Failed during processing request",
+
+  TASKS_NOT_FOUND: "No tasks found",
+  FAILED_FETCHING_EXPENSES: "Failed to fetch expenses",
+  FAILED_DURING_ASSISTANCE: "Failed during spend assistance",
+
+  FAILED_FETCHING_SUBTASKS: "Failed to fetch subtasks",
+  SUBTASK_NOT_FOUND: "Subtask not found",
+
+  
+  USER_STR_NOT_FOUND: "User str not found",
+  USER_TAGS_NOT_FOUND: "User tags not found",
+  TAG_ADDING_FAILED: "Failed to add tag",
+  LIST_ACCESS_FAILED: "Failed to access list",
+};
+export enum ErrorCodes {
+  INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
+  USER_NOT_FOUND = "USER_NOT_FOUND",
+  USER_ALREADY_EXISTS = "USER_ALREADY_EXISTS",
+  ERROR_WHILE_CREATING_USER = "ERROR_WHILE_CREATING_USER",
+  SESSION_EXPIRED = "SESSION_EXPIRED",
+  NETWORK_ERROR = "NETWORK_ERROR",
+  SERVER_ERROR = "SERVER_ERROR",
+
+  FAILED_FETCHING_TASKS = "TASKS_NOT_FOUND",
+  INVALID_INPUTS = "INVALID_INPUTS",
+  FAILED_DURING_PROCESS = "FAILED_DURING_PROCESS",
+  TASKS_NOT_FOUND = "TASKS_NOT_FOUND",
+
+  FAILED_FETCHING_EXPENSES = "FAILED_FETCHING_EXPENSES",
+  FAILED_DURING_ASSISTANCE = "FAILED_DURING_ASSISTANCE",
+
+  FAILED_FETCHING_SUBTASKS = "FAILED_FETCHING_SUBTASKS",
+  SUBTASK_NOT_FOUND = "SUBTASK_NOT_FOUND",
+
+  USER_STR_NOT_FOUND = "USER_STR_NOT_FOUND",
+  USER_TAGS_NOT_FOUND = "USER_TAGS_NOT_FOUND",
+  TAG_ADDING_FAILED = "TAG_ADDING_FAILED",
+  LIST_ACCESS_FAILED = "LIST_ACCESS_FAILED",
+}
